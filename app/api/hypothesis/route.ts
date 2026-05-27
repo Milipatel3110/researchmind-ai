@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     if (!papers?.length) return Response.json({ error: "No papers provided" }, { status: 400 });
 
     const context = papers.map((p, i) =>
-      `PAPER ${i + 1}: "${p.title}" (${p.year})\nFindings: ${p.keyFindings?.join("; ")}\nMethodology: ${p.methodology}\nAbstract: ${p.abstract}`
+      `PAPER ${i + 1}: "${p.title}" (${p.year})\nFindings: ${p.keyFindings?.slice(0, 3).join("; ") || ""}\nMethod: ${(p.methodology || "").substring(0, 150)}\nAbstract: ${(p.abstract || "").substring(0, 300)}`
     ).join("\n\n");
 
     const prompt = `Based on these ${papers.length} research papers${focus ? ` with a focus on: "${focus}"` : ""}, generate exciting novel research hypotheses.

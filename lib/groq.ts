@@ -12,7 +12,7 @@ export async function streamGroq(prompt: string, system?: string): Promise<Reada
     model: MODEL,
     messages,
     stream: true,
-    max_tokens: 4096,
+    max_tokens: 1800,
   });
 
   return new ReadableStream({
@@ -38,7 +38,7 @@ export async function callGroq(prompt: string, system?: string): Promise<string>
   const res = await groq.chat.completions.create({
     model: MODEL,
     messages,
-    max_tokens: 4096,
+    max_tokens: 1800,
   });
   return res.choices[0]?.message?.content ?? "";
 }

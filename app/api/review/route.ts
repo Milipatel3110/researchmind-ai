@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     if (!papers?.length) return Response.json({ error: "No papers provided" }, { status: 400 });
 
     const summaries = papers.map((p, i) =>
-      `PAPER ${i + 1}: "${p.title}" (${p.year}) by ${p.authors}\nAbstract: ${p.abstract}\nKey Findings: ${p.keyFindings?.join("; ") || "N/A"}\nMethodology: ${p.methodology || "N/A"}`
+      `PAPER ${i + 1}: "${p.title}" (${p.year}) by ${p.authors}\nAbstract: ${(p.abstract || "").substring(0, 300)}\nFindings: ${p.keyFindings?.slice(0, 3).join("; ") || "N/A"}\nMethod: ${(p.methodology || "N/A").substring(0, 150)}`
     ).join("\n\n");
 
     const prompt = `Write a comprehensive literature review${topic ? ` on the topic: "${topic}"` : ""} based on these ${papers.length} papers.

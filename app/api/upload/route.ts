@@ -32,8 +32,8 @@ export async function POST(request: NextRequest) {
   "dataset": "dataset used or N/A"
 }
 
-Paper text (first 4000 chars):
-${fullText.substring(0, 4000)}`;
+Paper text (first 2500 chars):
+${fullText.substring(0, 2500)}`;
 
     const metaRaw = await callGroq(metaPrompt, "You are a research paper metadata extractor. Return ONLY valid JSON, no markdown fences.");
     let meta = { title: file.name, authors: "Unknown", year: "Unknown", abstract: "", keyFindings: [] as string[], methodology: "", dataset: "" };

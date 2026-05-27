@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     if (papers?.length < 2) return Response.json({ error: "Need at least 2 papers" }, { status: 400 });
 
     const summaries = papers.map((p, i) =>
-      `PAPER ${i + 1}: "${p.title}" (${p.year}) by ${p.authors}\nAbstract: ${p.abstract}\nMethodology: ${p.methodology || "N/A"}\nKey Findings: ${p.keyFindings?.join("; ") || "N/A"}\nDataset: ${p.dataset || "N/A"}\nFull text excerpt: ${p.fullText.substring(0, 3000)}`
+      `PAPER ${i + 1}: "${p.title}" (${p.year}) by ${p.authors}\nAbstract: ${(p.abstract || "").substring(0, 250)}\nMethod: ${(p.methodology || "N/A").substring(0, 150)}\nFindings: ${p.keyFindings?.slice(0, 3).join("; ") || "N/A"}\nDataset: ${p.dataset || "N/A"}`
     ).join("\n\n");
 
     const prompt = `Compare these ${papers.length} research papers and return a JSON object for a comparison matrix.

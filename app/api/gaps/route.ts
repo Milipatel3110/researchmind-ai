@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     if (!papers?.length) return Response.json({ error: "No papers provided" }, { status: 400 });
 
     const context = papers.map((p, i) =>
-      `PAPER ${i + 1}: "${p.title}" (${p.year})\nAbstract: ${p.abstract}\nFindings: ${p.keyFindings?.join("; ")}\nMethodology: ${p.methodology}\nLimitations/Future Work from text: ${p.fullText.substring(p.fullText.length - 2000)}`
+      `PAPER ${i + 1}: "${p.title}" (${p.year})\nAbstract: ${(p.abstract || "").substring(0, 300)}\nFindings: ${p.keyFindings?.slice(0, 3).join("; ") || ""}\nMethodology: ${(p.methodology || "").substring(0, 200)}`
     ).join("\n\n");
 
     const prompt = `Analyze these ${papers.length} research papers and identify research gaps, limitations, and unexplored areas.
