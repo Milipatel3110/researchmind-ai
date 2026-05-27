@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Brain, LayoutDashboard, Upload, MessageSquare, BookOpen,
-  Search, GitBranch, Lightbulb, Telescope, X
+  Search, GitBranch, Lightbulb, Telescope, X, ScrollText
 } from "lucide-react";
 
 const nav = [
@@ -16,9 +16,11 @@ const nav = [
   { label: "Gap Analyzer", icon: Search, href: "/gaps" },
   { label: "Compare Papers", icon: GitBranch, href: "/compare" },
   { label: "Hypothesis Forge", icon: Lightbulb, href: "/hypothesis" },
+  { label: "IEEE Paper Forge", icon: ScrollText, href: "/paper-forge", badge: "New" },
   { label: "Discover", icon: Telescope, href: "/discover" },
 ];
 
+interface NavItem { label: string; icon: React.ElementType; href: string; badge?: string; }
 interface Props { mobileOpen?: boolean; onClose?: () => void; }
 
 export default function Sidebar({ mobileOpen, onClose }: Props) {
@@ -36,7 +38,7 @@ export default function Sidebar({ mobileOpen, onClose }: Props) {
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        {nav.map((item) => {
+        {(nav as NavItem[]).map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
           return (
@@ -52,7 +54,8 @@ export default function Sidebar({ mobileOpen, onClose }: Props) {
             >
               <Icon className={`w-4 h-4 flex-shrink-0 transition-colors ${isActive ? "text-[#4f8ef7]" : "text-white/35 group-hover:text-white/60"}`} />
               <span>{item.label}</span>
-              {isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#4f8ef7]" />}
+              {item.badge && <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded-full bg-[#34d399]/15 text-[#34d399] border border-[#34d399]/25">{item.badge}</span>}
+              {isActive && !item.badge && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#4f8ef7]" />}
             </Link>
           );
         })}
